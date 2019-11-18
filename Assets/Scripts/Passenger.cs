@@ -7,24 +7,23 @@ public class Passenger : MonoBehaviour
     private Bus bus;
     private GameManager gm;
     private NavMeshAgent nav;
+    private Rigidbody rb;
     private const string busTag = "Bus";
     private const string carTag = "Car";
 
     private Coroutine afterHit = null;
-    private bool hitAtCar;
+    private bool hitAtCar = false;
     private float timeToGo = 1f;
-    private Rigidbody rigidbody;
+
     private float startSpeed = 8f;
-    private float maxSpeed = 25f;
-    private float deltaSpeed = 3f;
+    private float maxSpeed = 20f;
+    private float deltaSpeed = 2f;
 
     private Vector3 startPosition;
     private float rangeToBus = 25f;
 
     private bool folowingBus = false;
     private bool folowingStart = false;
-
-
     [SerializeField] private float collisionForce = 50;
 
     void Start()
@@ -32,36 +31,33 @@ public class Passenger : MonoBehaviour
         bus = FindObjectOfType<Bus>();
         gm = FindObjectOfType<GameManager>();
         nav = GetComponent<NavMeshAgent>();
+        rb = GetComponent<Rigidbody>();
         nav.speed = startSpeed;
-        rigidbody = GetComponent<Rigidbody>();
-        rigidbody.isKinematic = true;
-        hitAtCar = false;
+        rb.isKinematic = true;
+
         startPosition = transform.position;
     }
 
     void Update()
     {
-        if (!hitAtCar)
+        if (!hitAtCar && bus.IsStoped() && Vector3.Distance(transform.position, bus.transform.position) < rangeToBus)
         {
-            if (bus.IsStoped() && Vector3.Distance(transform.position, bus.transform.position) < rangeToBus)
+            if (!folowingBus)
             {
-                if (!folowingBus)
-                {
-                    nav.SetDestination(bus.transform.position);
-                    folowingBus = true;
-                    folowingStart = false;
-                }
-
-                nav.speed = Mathf.Min(nav.speed + deltaSpeed, maxSpeed);
+                nav.SetDestination(bus.transform.position);
+                folowingBus = true;
+                folowingStart = false;
             }
-            else
+
+            nav.speed = Mathf.Min(nav.speed + deltaSpeed, maxSpeed);
+        }
+        else if (!hitAtCar && !bus.IsStoped() && Vector3.Distance(transform.position, bus.transform.position) >= rangeToBus)
+        {
+            if (!folowingStart)
             {
-                if (!folowingStart)
-                {
-                    nav.SetDestination(startPosition);
-                    folowingBus = false;
-                    folowingStart = true;
-                }
+                nav.SetDestination(startPosition);
+                folowingBus = false;
+                folowingStart = true;
             }
         }
     }
@@ -79,14 +75,15 @@ public class Passenger : MonoBehaviour
     {
         if (collision.gameObject.tag == carTag)
         {
-            nav.isStopped = true;
             hitAtCar = true;
+            folowingBus = false;
+            folowingStart = false;
+            nav.enabled = false;
 
             var forceNormale = collision.contacts[0].normal;
 
-            rigidbody.isKinematic = false;
-            nav.enabled = false;
-            rigidbody.AddForce(forceNormale * collisionForce);
+            rb.isKinematic = false;
+            rb.AddForce(forceNormale * collisionForce);
 
             if (afterHit == null)
             {
@@ -98,9 +95,9 @@ public class Passenger : MonoBehaviour
     private IEnumerator AfterHit()
     {
         yield return new WaitForSeconds(timeToGo);
-        rigidbody.isKinematic = true;
+
+        rb.isKinematic = true;
         nav.enabled = true;
-        nav.isStopped = false;
         nav.speed = startSpeed;
         hitAtCar = false;
     }

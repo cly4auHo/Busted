@@ -1505,7 +1505,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 50
+  m_Acceleration: 30
   avoidancePriority: 50
   m_AngularSpeed: 1500
   m_StoppingDistance: 0.1
@@ -1857,7 +1857,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 50
+  m_Acceleration: 30
   avoidancePriority: 50
   m_AngularSpeed: 1500
   m_StoppingDistance: 0.1
@@ -1976,7 +1976,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 300c002b9b7567b4daac2373c57b259f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionForce: 1500
+  collisionForce: 500
 --- !u!54 &1442858391
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2004,7 +2004,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 50
+  m_Acceleration: 30
   avoidancePriority: 50
   m_AngularSpeed: 1500
   m_StoppingDistance: 0.1
@@ -2655,7 +2655,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 50
+  m_Acceleration: 30
   avoidancePriority: 50
   m_AngularSpeed: 1500
   m_StoppingDistance: 0.1
@@ -2846,7 +2846,7 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 50
+  m_Acceleration: 30
   avoidancePriority: 50
   m_AngularSpeed: 1500
   m_StoppingDistance: 0.1

@@ -1,18 +1,38 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SaveProgress : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private int currentLvl;
+    private const string key = "CurrentLVL";
+
     void Start()
     {
-        
+        LoadLVL();
     }
 
-    // Update is called once per frame
-    void Update()
+
+    void saveLVL()
     {
-        
+        PlayerPrefs.SetInt(key, currentLvl);
+        PlayerPrefs.Save();
+    }
+
+
+    void LoadLVL()
+    {
+        if (PlayerPrefs.HasKey(key))
+        {
+            this.currentLvl = PlayerPrefs.GetInt(key);
+        }
+    }
+
+    public void SetLVL(int currentLvl)
+    {
+        this.currentLvl = currentLvl;
+    }
+
+    public int GetLVL()
+    {
+        return currentLvl;
     }
 }
