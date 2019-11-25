@@ -6,7 +6,7 @@ public class MainCamera : MonoBehaviour
     private Vector3 offset;
     private Vector3 desirePorition;
     private Vector3 smoothPosition;
-    private float smoothSpeed = 0.05f;
+    [SerializeField] private float smoothSpeed = 0.05f;
     private const string busTag = "Bus";
 
     void Start()
